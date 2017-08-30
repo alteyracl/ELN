@@ -5,7 +5,7 @@
 	Description: Plugin containing several IARC customizations for the Electronic (Laboratory) Notebook
 	Author: Lucile Alteyrac
 	Author URI: http://www.iarc.fr
-	Version: 1.0
+	Version: 1.1
 	
 	Plugin dependencies:
 		- Category and authors
