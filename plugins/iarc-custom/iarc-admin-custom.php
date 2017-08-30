@@ -85,11 +85,13 @@ add_action( 'admin_init', 'disable_autosave' );
 // Add some info before Editor, if info is defined in the Settings page
 function iarc_edit_form_after_title() {
 	$iarc_options = get_option('iarc_options');
-	if ( !empty($iarc_options['editorInfo']) ) {
-		if( isset( $iarc_options['withNotice'] ) && $iarc_options['withNotice'] == '1')
-			echo '<p class="editor-info notice notice-info is-dismissible">' . $iarc_options['editorInfo'] . '</p>';
-		else
-			echo '<p class="editor-info">' . $iarc_options['editorInfo'] . '</p>';
+	if( isset( $iarc_options['displayEditorInfo'] ) && $iarc_options['displayEditorInfo'] == '1') {
+		if ( !empty($iarc_options['editorInfo']) ) {
+			if( isset( $iarc_options['withNotice'] ) && $iarc_options['withNotice'] == '1')
+				echo '<p class="editor-info notice notice-info is-dismissible">' . $iarc_options['editorInfo'] . '</p>';
+			else
+				echo '<p class="editor-info">' . $iarc_options['editorInfo'] . '</p>';
+		}
 	}
 }
 add_action( 'edit_form_after_title', 'iarc_edit_form_after_title' );
