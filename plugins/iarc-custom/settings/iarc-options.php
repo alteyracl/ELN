@@ -18,15 +18,17 @@ $doc_pages = array(
 $iarc_options = get_option('iarc_options');
 
 if ( isset($_POST['submit']) ) {
-	$iarc_options['dashboardBoxTitle']= $_POST['dashboardBoxTitle'];
-	$iarc_options['dashboardInfo'] 	  = stripslashes($_POST['dashboardInfo']);
-	$iarc_options['loginPageText'] 	  = stripslashes($_POST['loginPageText']);
-	$iarc_options['htmlEditorHeight'] = (is_numeric($_POST['htmlEditorHeight'])? $_POST['htmlEditorHeight'] : "600");
-	$iarc_options['editorInfo'] 	  = stripslashes($_POST['editorInfo']);
-	$iarc_options['withNotice']  	  = $_POST['withNotice'];
-	$iarc_options['disableAutosave']  = $_POST['disableAutosave'];
-	$iarc_options['displayComments']  = $_POST['displayComments'];
-	$iarc_options['displayHome'] 	  = $_POST['displayHome'];
+	$iarc_options['dashboardBoxTitle'] = $_POST['dashboardBoxTitle'];
+	$iarc_options['dashboardInfo'] 	   = stripslashes($_POST['dashboardInfo']);
+	$iarc_options['loginPageText'] 	   = stripslashes($_POST['loginPageText']);
+	$iarc_options['htmlEditorHeight']  = (is_numeric($_POST['htmlEditorHeight'])? $_POST['htmlEditorHeight'] : "600");
+	$iarc_options['displayEditorInfo'] = $_POST['displayEditorInfo'];
+	$iarc_options['editorInfo'] 	   = stripslashes($_POST['editorInfo']);
+	$iarc_options['maxAttachmentSize'] = (is_numeric($_POST['maxAttachmentSize'])? $_POST['maxAttachmentSize'] : "2");
+	$iarc_options['withNotice']  	   = $_POST['withNotice'];
+	$iarc_options['disableAutosave']   = $_POST['disableAutosave'];
+	$iarc_options['displayComments']   = $_POST['displayComments'];
+	$iarc_options['displayHome'] 	   = $_POST['displayHome'];
 	
 	foreach ( $doc_pages as $doc_page ) {
 		$iarc_options['buttons'][$doc_page['id']] = array('id' => $doc_page['id'],
@@ -107,6 +109,11 @@ if ( !empty($_POST ) ) : ?>
 		<textarea id="editorInfo" style="width:80%; height:100px;" name="editorInfo"><?php if ( isset($iarc_options['editorInfo']) ) _e($iarc_options['editorInfo']); ?></textarea>
 		<br>
 		<p style="margin-top: 0">
+			<?php if ($iarc_options['displayEditorInfo'] == '') $iarc_options['displayEditorInfo'] = '1'; ?>
+			<input type="hidden" name="displayEditorInfo" value="0" />
+			<input type="checkbox" name="displayEditorInfo" value="1"<?php checked( $iarc_options['displayEditorInfo'] == '1' ); ?> />
+			Display this information in the Editor
+			<br>
 			<?php if ( !isset($iarc_options['withNotice']) ) $iarc_options['withNotice'] = '1'; ?>
 			<input type="hidden" name="withNotice" value="0" />
 			<input type="checkbox" name="withNotice" value="1"<?php checked( $iarc_options['withNotice'] == '1' ); ?> />
@@ -114,8 +121,15 @@ if ( !empty($_POST ) ) : ?>
 		</p>
 	</p>
 	<br>
+	<h2>Media Library</h2>
+	<p>
+		<label for="maxAttachmentSize">Maximum upload file size:</label>
+		<input type="text" id="maxAttachmentSize" name="maxAttachmentSize" style="width:30px" 
+			value="<?php if ( isset($iarc_options['maxAttachmentSize']) ) _e($iarc_options['maxAttachmentSize']); else echo "2"; ?>">
+		</input> MB
+	</p>
+	<br>
 	<h2>Autosave</h2>
-	
 	<p>The WordPress autosave functionality is activated in post-new.php.</p>
 	<p>Disable Autosave to avoid Uncategorized posts&nbsp
 	<?php if ( !isset($iarc_options['htmlEditorHeight']) || $iarc_options['disableAutosave'] == '') $iarc_options['disableAutosave'] = '1'; ?>

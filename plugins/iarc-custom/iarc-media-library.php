@@ -17,4 +17,14 @@ function media_manager_default() {
 add_action( 'admin_footer-post-new.php', 'media_manager_default' );
 add_action( 'admin_footer-post.php', 'media_manager_default' );
 
+// IARC L.Alteyrac 20170330: Limit attachment size
+function iarc_upload_max_size($bytes) {
+    $iarc_options = get_option('iarc_options');
+	if( isset( $iarc_options['maxAttachmentSize'] ) ) 
+		return $iarc_options['maxAttachmentSize']*1024*1000;
+	else 
+		return 2048000;
+}
+add_filter('upload_size_limit', 'iarc_upload_max_size');
+
 ?>
