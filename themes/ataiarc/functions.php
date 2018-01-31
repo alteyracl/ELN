@@ -42,4 +42,7 @@ function ataiarc_setup(){
 	
 }
 
+// IARC L.Alteyrac 20180131: Enable "Links" menu in Dashboard
+add_filter( 'pre_option_link_manager_enabled', '__return_true' );
+
 ?>
