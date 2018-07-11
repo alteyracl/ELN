@@ -58,6 +58,28 @@ if (have_posts()) : $bfa_ata_postcount = 0; /* Postcount needed for option "XX f
 		echo "<p style=\"border-bottom:solid black 1px;\"> </p>";
 		
 	}
+	
+	// Display Sticky posts in the TOC
+	if ( is_category() ) {
+		$sticky = get_option( 'sticky_posts' );
+		$args = array(
+			'post__in'  => $sticky,
+			'ignore_sticky_posts' => 1,
+			'cat' => get_queried_object()->term_id // current category
+		);
+		$sticky_query = new WP_Query( $args );
+		
+		if ( isset($sticky[0]) ) {
+			if ( $sticky_query->post_count > 0 )
+				echo "<p style=\"font-size: 16px;color: #666666;font-style: italic;\">Headlines</p>";
+			while ($sticky_query->have_posts()) : $sticky_query->the_post(); $bfa_ata_postcount++;
+				bfa_post_footer('<div class="post-footer">','</div>');
+			endwhile;
+			if ( $sticky_query->post_count > 0 )
+				echo "<p style=\"border-bottom:solid black 1px;\"> </p>";
+		}
+	}
+	
 	if ( isset($_POST['allauthors']) && $_POST['allauthors'] == 1) {
 		$query_string .= '&author='.$current_user->ID ;
 		$posts = query_posts( $query_string );
