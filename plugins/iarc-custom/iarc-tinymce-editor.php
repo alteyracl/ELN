@@ -107,4 +107,18 @@ function filter_wp_link_query( $results, $query ) {
 };
 add_filter( 'wp_link_query', 'filter_wp_link_query', 10, 2 );
 
+// IARC L.Alteyrac 20181102: Insert a clean table, without default options
+// of last versions of TinyMCE (border, etc), and add a default width
+function tinymce_fix_table_styles() {	
+  echo '<script>jQuery(function($){
+    if (typeof tinymce !== "undefined") {
+      tinymce.overrideDefaults({
+        table_default_attributes:{},
+        table_default_styles:{width: "400px"}
+      });
+    }
+  });</script>';
+}
+add_action('admin_footer', 'tinymce_fix_table_styles');
+
 ?>
